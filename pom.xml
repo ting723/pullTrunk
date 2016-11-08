@@ -44,7 +44,7 @@
                 </finalName>
                 <archive>
                     <manifest>
-                        <mainClass>com.lemall.test.ui.MainForm</mainClass>
+                        <mainClass>com.zhanglw.svnTools.ui.MainForm</mainClass>
                     </manifest>
                 </archive>
                 <descriptorRefs>
