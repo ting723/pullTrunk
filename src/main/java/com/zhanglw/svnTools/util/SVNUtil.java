@@ -28,7 +28,7 @@ import java.io.File;
  */
 public class SVNUtil {
 
-    private static Logger logger = LogManager.getLogger("My Logger");
+    private static Logger logger = LogManager.getLogger( "My Logger" );
 
     /**
      * 通过不同的协议初始化版本库
@@ -50,24 +50,24 @@ public class SVNUtil {
         // 创建库连接
         SVNRepository repository = null;
         try {
-            repository = SVNRepositoryFactory.create(SVNURL
-                    .parseURIEncoded(svnRoot));
+            repository = SVNRepositoryFactory.create( SVNURL
+                    .parseURIEncoded( svnRoot ) );
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
             return null;
         }
 
         // 身份验证
         ISVNAuthenticationManager authManager = SVNWCUtil
 
-                .createDefaultAuthenticationManager(username, password.toCharArray());
+                .createDefaultAuthenticationManager( username, password.toCharArray() );
 
         // 创建身份验证管理器
-        repository.setAuthenticationManager(authManager);
+        repository.setAuthenticationManager( authManager );
 
-        DefaultSVNOptions options = SVNWCUtil.createDefaultOptions(true);
-        SVNClientManager clientManager = SVNClientManager.newInstance(options,
-                authManager);
+        DefaultSVNOptions options = SVNWCUtil.createDefaultOptions( true );
+        SVNClientManager clientManager = SVNClientManager.newInstance( options,
+                authManager );
         return clientManager;
     }
 
@@ -84,9 +84,9 @@ public class SVNUtil {
                                               SVNURL url, String commitMessage) {
         try {
             return clientManager.getCommitClient().doMkDir(
-                    new SVNURL[]{url}, commitMessage);
+                    new SVNURL[]{url}, commitMessage );
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
         }
         return null;
     }
@@ -108,11 +108,11 @@ public class SVNUtil {
                                                 File localPath, SVNURL dstURL, String commitMessage,
                                                 boolean isRecursive) {
         try {
-            return clientManager.getCommitClient().doImport(localPath, dstURL,
+            return clientManager.getCommitClient().doImport( localPath, dstURL,
                     commitMessage, null, true, true,
-                    SVNDepth.fromRecurse(isRecursive));
+                    SVNDepth.fromRecurse( isRecursive ) );
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
         }
         return null;
     }
@@ -125,11 +125,11 @@ public class SVNUtil {
      */
     public static void addEntry(SVNClientManager clientManager, File wcPath) {
         try {
-            clientManager.getWCClient().doAdd(new File[]{wcPath}, true,
+            clientManager.getWCClient().doAdd( new File[]{wcPath}, true,
                     false, false, SVNDepth.INFINITY, false, false,
-                    true);
+                    true );
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
         }
     }
 
@@ -148,9 +148,9 @@ public class SVNUtil {
                                        File wcPath, boolean remote) {
         SVNStatus status = null;
         try {
-            status = clientManager.getStatusClient().doStatus(wcPath, remote);
+            status = clientManager.getStatusClient().doStatus( wcPath, remote );
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
         }
         return status;
     }
@@ -170,9 +170,9 @@ public class SVNUtil {
         try {
             return clientManager.getCommitClient().doCommit(
                     new File[]{wcPath}, keepLocks, commitMessage, null,
-                    null, false, false, SVNDepth.INFINITY);
+                    null, false, false, SVNDepth.INFINITY );
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
         }
         return null;
     }
@@ -194,15 +194,15 @@ public class SVNUtil {
 		/*
          * sets externals not to be ignored during the update
 		 */
-        updateClient.setIgnoreExternals(false);
+        updateClient.setIgnoreExternals( false );
 
 		/*
          * returns the number of the revision wcPath was updated to
 		 */
         try {
-            return updateClient.doUpdate(wcPath, updateToRevision, depth, false, false);
+            return updateClient.doUpdate( wcPath, updateToRevision, depth, false, false );
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
         }
         return 0;
     }
@@ -225,14 +225,14 @@ public class SVNUtil {
         /*
          * sets externals not to be ignored during the checkout
 		 */
-        updateClient.setIgnoreExternals(false);
+        updateClient.setIgnoreExternals( false );
         /*
          * returns the number of the revision at which the working copy is
 		 */
         try {
-            return updateClient.doCheckout(url, destPath, revision, revision, depth, false);
+            return updateClient.doCheckout( url, destPath, revision, revision, depth, false );
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
         }
         return 0;
     }
@@ -245,15 +245,15 @@ public class SVNUtil {
      */
     public static boolean isWorkingCopy(File path) {
         if (!path.exists()) {
-            logger.warn("'" + path + "' not exist!");
+            logger.warn( "'" + path + "' not exist!" );
             return false;
         }
         try {
-            if (null == SVNWCUtil.getWorkingCopyRoot(path, false)) {
+            if (null == SVNWCUtil.getWorkingCopyRoot( path, false )) {
                 return false;
             }
         } catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+            logger.error( e.getErrorMessage(), e );
         }
         return true;
     }
@@ -266,10 +266,10 @@ public class SVNUtil {
      */
     public static boolean isURLExist(SVNURL url, String username, String password) {
         try {
-            SVNRepository svnRepository = SVNRepositoryFactory.create(url);
-            ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(username, password.toCharArray());
-            svnRepository.setAuthenticationManager(authManager);
-            SVNNodeKind nodeKind = svnRepository.checkPath("", -1);
+            SVNRepository svnRepository = SVNRepositoryFactory.create( url );
+            ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager( username, password.toCharArray() );
+            svnRepository.setAuthenticationManager( authManager );
+            SVNNodeKind nodeKind = svnRepository.checkPath( "", -1 );
             return nodeKind == SVNNodeKind.NONE ? false : true;
         } catch (SVNException e) {
             e.printStackTrace();
@@ -290,12 +290,12 @@ public class SVNUtil {
     public static SVNCommitInfo copy(SVNURL srcURL, SVNURL dstURL, boolean isMove, String commitMessage, String username, String password) throws SVNException {
         SVNCommitInfo commitInfo = null;
         try {
-            ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(username, password.toCharArray());
-            SVNClientManager clientManager = authSvn(srcURL.toString(), username, password);
-            SVNCopySource scs = new SVNCopySource(SVNRevision.HEAD, SVNRevision.HEAD, srcURL);
+            ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager( username, password.toCharArray() );
+            SVNClientManager clientManager = authSvn( srcURL.toString(), username, password );
+            SVNCopySource scs = new SVNCopySource( SVNRevision.HEAD, SVNRevision.HEAD, srcURL );
             SVNCopySource[] scsArry = new SVNCopySource[1];
             scsArry[0] = scs;
-            commitInfo = clientManager.getCopyClient().doCopy(scsArry, dstURL, isMove, true, false, commitMessage, null);
+            commitInfo = clientManager.getCopyClient().doCopy( scsArry, dstURL, isMove, true, false, commitMessage, null );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -312,18 +312,18 @@ public class SVNUtil {
      * @return
      */
     public static String delete(SVNURL trunkUrl, String commitMessage, String username, String password) {
-        ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(username, password.toCharArray());
+        ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager( username, password.toCharArray() );
         String result = "";
         SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
-        svnOperationFactory.setAuthenticationManager(authManager);
+        svnOperationFactory.setAuthenticationManager( authManager );
         try {
             SvnRemoteDelete remoteDelete = svnOperationFactory.createRemoteDelete();
-            remoteDelete.setSingleTarget(SvnTarget.fromURL(trunkUrl));
-            remoteDelete.setCommitMessage("Delete a file from the repository");
+            remoteDelete.setSingleTarget( SvnTarget.fromURL( trunkUrl ) );
+            remoteDelete.setCommitMessage( "Delete a file from the repository" );
             SVNCommitInfo commitInfo = remoteDelete.run();
             if (commitInfo != null) {
                 long newRevision = commitInfo.getNewRevision();
-                System.out.println("Removed a file, revision " + newRevision + " created");
+                System.out.println( "Removed a file, revision " + newRevision + " created" );
                 result = "Removed a file, revision " + newRevision + " created";
             }
         } catch (SVNException e) {
@@ -342,18 +342,18 @@ public class SVNUtil {
         // 创建库连接
         SVNRepository repository = null;
         try {
-            repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(svnUrl));
+            repository = SVNRepositoryFactory.create( SVNURL.parseURIEncoded( svnUrl ) );
             // 身份验证
             ISVNAuthenticationManager authManager = SVNWCUtil
-                    .createDefaultAuthenticationManager(username, password);
+                    .createDefaultAuthenticationManager( username, password );
             // 创建身份验证管理器
-            repository.setAuthenticationManager(authManager);
+            repository.setAuthenticationManager( authManager );
             repository.testConnection();
-        } catch (SVNAuthenticationException e){
-            logger.error(e.getMessage(),e);
-            return  false;
-        }catch (SVNException e) {
-            logger.error(e.getErrorMessage(), e);
+        } catch (SVNAuthenticationException e) {
+            logger.error( e.getMessage(), e );
+            return false;
+        } catch (SVNException e) {
+            logger.error( e.getErrorMessage(), e );
             return false;
         }
 

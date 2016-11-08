@@ -17,8 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static com.zhanglw.svnTools.util.ConfUtil.getConfigBean;
-
 /**
  * Created by zhanglw on 2016/7/9.
  */
@@ -63,8 +61,9 @@ public class MainForm extends JFrame {
     private void check() {
         if (!ConfUtil.check()) {
             LoginDialog dialog = new LoginDialog( this, true );
-            logger.info( "检查登录成功" );
             dialog.setVisible( true );
+        }else{
+            logger.info( "已登录" );
         }
     }
 
@@ -221,7 +220,7 @@ public class MainForm extends JFrame {
             return;
         }
 
-        if (!testUrl.contains( getConfigBean( "config.yaml" ).getTestSVNUrl().substring( getConfigBean( "config.yaml" ).getTestSVNUrl().indexOf( "http://" ) ) )) {
+        if (!testUrl.contains( ConfUtil.getConfigBean( "config.yaml" ).getTestSVNUrl().substring( ConfUtil.getConfigBean( "config.yaml" ).getTestSVNUrl().indexOf( "http://" ) ) )) {
             MessageBox.Show( "SVN的地址不合法" );
             logger.info( "SVN的地址不合法" );
             return;

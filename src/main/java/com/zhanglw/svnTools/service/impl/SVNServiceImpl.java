@@ -14,7 +14,7 @@ import org.tmatesoft.svn.core.SVNURL;
  */
 public class SVNServiceImpl implements SVNService {
 
-    private final Logger logger = LogManager.getLogger( SVNServiceImpl.class );
+    private final Logger logger = LogManager.getLogger("My Logger");
 
     public static void main(String[] args) {
 
@@ -23,7 +23,7 @@ public class SVNServiceImpl implements SVNService {
     public boolean isExist(String url) {
         boolean flag = false;
         try {
-            flag = SVNUtil.isURLExist( SVNURL.parseURIEncoded( url ), Constant.authenBean.getUsername(), Constant.authenBean.getPassword() );
+            flag = SVNUtil.isURLExist( SVNURL.parseURIEncoded( url ), Constant.getAuthenBean().getUsername(), Constant.getAuthenBean().getPassword() );
             logger.info( "验证路径成功!" );
         } catch (SVNException e) {
             e.printStackTrace();
@@ -39,7 +39,7 @@ public class SVNServiceImpl implements SVNService {
         String flag = "";
         if (isExist( testUrl )) {
             try {
-                SVNCommitInfo svnCommitInfo = SVNUtil.copy( SVNURL.parseURIEncoded( testUrl ), SVNURL.parseURIEncoded( trunkUrl ), false, message, Constant.authenBean.getUsername(), Constant.authenBean.getPassword() );
+                SVNCommitInfo svnCommitInfo = SVNUtil.copy( SVNURL.parseURIEncoded( testUrl ), SVNURL.parseURIEncoded( trunkUrl ), false, message, Constant.getAuthenBean().getUsername(), Constant.getAuthenBean().getPassword() );
                 flag = svnCommitInfo.toString();
                 logger.info( "Copy SVN Url 成功!" );
             } catch (SVNException e) {
@@ -58,7 +58,7 @@ public class SVNServiceImpl implements SVNService {
             message = "Delete This version";
         }
         try {
-            SVNUtil.delete( SVNURL.parseURIEncoded( trunkUrl ), message, Constant.authenBean.getUsername(), Constant.authenBean.getPassword() );
+            SVNUtil.delete( SVNURL.parseURIEncoded( trunkUrl ), message, Constant.getAuthenBean().getUsername(), Constant.getAuthenBean().getPassword() );
             logger.info( "Delete 已存在目录" );
         } catch (SVNException e) {
             e.printStackTrace();

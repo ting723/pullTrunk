@@ -2,19 +2,20 @@ package com.zhanglw.svnTools.ui;
 
 import com.zhanglw.svnTools.bean.AuthenBean;
 import com.zhanglw.svnTools.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static com.zhanglw.svnTools.util.ConfUtil.getConfigBean;
-
 /**
  * Created by zhanglw on 2016/7/13.
  */
 public class LoginDialog extends Dialog implements ActionListener{
 
+    private static Logger logger = LogManager.getLogger( "My Logger" );
     JFrame parentFrame = null;
     JLabel label1 = new JLabel("用户名");
     JLabel label2 = new JLabel("密码");
@@ -53,9 +54,10 @@ public class LoginDialog extends Dialog implements ActionListener{
         {
             if(!QStringUtil.isEmpty(this.username.getText()) && this.passwordField.getPassword().length>0){
                 AuthenBean authenBean = ConfUtil.aesEncryptBean(this.username.getText(),String.valueOf(this.passwordField.getPassword()), SerialUtil.getCPUSerial());
-                boolean falg = SVNUtil.isConnect(getConfigBean( "config.yaml" ).getTestSVNUrl(),this.username.getText(),this.passwordField.getPassword());
+                boolean falg = SVNUtil.isConnect( ConfUtil.getConfigBean( "config.yaml" ).getTestSVNUrl(),this.username.getText(),this.passwordField.getPassword());
                 if(falg){
                     ConfUtil.createDat(authenBean);
+                    logger.info("登录成功!");
                     dispose();
                 }else {
                     MessageBox.Show("无法连接SVN: \r\n1. 用户名或密码错误 \r\n2.网络异常");

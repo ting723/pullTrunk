@@ -22,3 +22,13 @@ Copy
 * swing MessageBox自定义
 * AES加密和解密
 * java读取系统信息(如cpu等)
+
+## 修改
+* 配置文件config.yaml
+
+## 打包
+
+```
+clean package assembly:assembly
+```
+

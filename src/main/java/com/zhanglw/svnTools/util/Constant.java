@@ -7,11 +7,9 @@ import com.zhanglw.svnTools.bean.AuthenBean;
  */
 public class Constant {
 
-    public static AuthenBean authenBean = new AuthenBean();
+    private static AuthenBean authenBean = null;
 
-    public static String key = ConfUtil.getConfigBean( "config.yaml" ).getEncryptionKey();
-
-    static {
+    public  static  AuthenBean getAuthenBean(){
         authenBean = ConfUtil.getBean( AuthenBean.class );
         try {
             if (authenBean != null) {
@@ -25,6 +23,13 @@ public class Constant {
         } catch (Exception e) {
             e.printStackTrace();
         }
+       return authenBean;
+    }
+
+    public static String key = ConfUtil.getConfigBean( "config.yaml" ).getEncryptionKey();
+
+    static {
+
     }
 
     public static void main(String[] args) {

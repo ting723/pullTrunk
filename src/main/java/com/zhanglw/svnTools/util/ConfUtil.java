@@ -9,6 +9,7 @@ import org.ho.yaml.Yaml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
@@ -22,11 +23,8 @@ public class ConfUtil {
     private static String userConfPath = System.getProperty("user.home") + File.separator + "AppData"
             + File.separator + "Local" + File.separator + "PullTrunk";
 
-    private static String confFilename = "mydat";
+    private static String confFilename = userConfPath + File.separator +"mydat";
 
-    static {
-        confFilename = userConfPath + File.separator + confFilename;
-    }
 
     public static <T> T getBean(Class<T> c) {
         T t = null;
@@ -43,10 +41,10 @@ public class ConfUtil {
 
 
 
-    public static <T> T getBean(Class<T> c,String fileName) {
+    public static <T> T getBean(Class<T> c, InputStream is) {
         T t = null;
         try {
-            t = Yaml.loadType(new File(fileName), c);
+            t = Yaml.loadType(is, c);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -66,7 +64,7 @@ public class ConfUtil {
     }
 
     public static boolean check() {
-        File file = new File(userConfPath + File.separator + "mydat");
+        File file = new File(confFilename);
         if (file.exists()) {
             AuthenBean authenBean = ConfUtil.getBean(AuthenBean.class);
             try {
@@ -103,8 +101,8 @@ public class ConfUtil {
     }
 
     public static ConfigBean getConfigBean(String filename){
-        String rootPath = ConfUtil.class.getClass().getResource( "/" ).getPath();
-        ConfigBean configBean = ConfUtil.getBean( ConfigBean.class,rootPath+filename );
+        InputStream is = ConfUtil.class.getClass().getResourceAsStream( "/"+filename);
+        ConfigBean configBean = ConfUtil.getBean( ConfigBean.class,is );
 
         return configBean;
     }
